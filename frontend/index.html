@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>On-Demand Topic Summarizer</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>📰 On-Demand Topic Summarizer</h1>
+    <p class="subtitle">Get the latest summaries from top articles on your topic!</p>
+
+    <input type="text" id="topicInput" placeholder="Enter topic (e.g., Artificial Intelligence)" />
+    <button id="fetchBtn">🔍 Summarize</button>
+
+    <div id="summaryOutput"></div>
+    <div id="finalSummary"></div>
+
+    <div class="action-buttons">
+      <button id="downloadBtn" style="display:none;">⬇ Download Summary</button>
+      <button id="emailBtn" style="display:none;">📧 Email Summary</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
