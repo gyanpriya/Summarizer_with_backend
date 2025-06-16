@@ -1,4 +1,4 @@
-const backendURL = "https://summarizer-backend-7my0.onrender.com"; // Local backend
+const backendURL = "https://summarizer-with-backend.onrender.com"; // Local backend
 //const backendURL = "http://127.0.0.1:5000"; // Flask local backend
 
 document.getElementById("fetchBtn").addEventListener("click", async () => {
