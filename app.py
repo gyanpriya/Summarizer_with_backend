@@ -19,8 +19,8 @@ print("Loaded Hugging Face Key:", HF_API_KEY[:10], "********")
 
 
 # --- Fetch Reddit RSS ---
-def fetch_reddit_articles(topic, max_articles=5):
-    url = f"https://www.reddit.com/search.rss?q={topic}"
+def fetch_news_articles(topic, max_articles=5):
+    url = f"https://news.google.com/rss/search?q={topic}"
     headers = {'User-Agent': 'Mozilla/5.0'}
     feed = feedparser.parse(requests.get(url, headers=headers).content)
 
@@ -83,7 +83,7 @@ def summarize():
     data = request.get_json()
     topic = data.get("topic", "")
 
-    reddit_articles = fetch_reddit_articles(topic)
+    reddit_articles = fetch_news_articles(topic)
     summaries = []
     all_text = ""
 
