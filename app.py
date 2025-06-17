@@ -29,12 +29,16 @@ def fetch_news_articles(topic, max_articles=5):
 
 
     articles = []
-    for entry in feed.entries[:max_articles]:
+    for entry in feed.entries:
+        if "reddit.com" in entry.link:
+            continue
         print("🔗 Found article link:", entry.link)
         articles.append({
             "title": entry.title,
             "link": entry.link
         })
+        if len(articles) >= max_articles:
+            break
     return articles
 
 # -- resolve url 
