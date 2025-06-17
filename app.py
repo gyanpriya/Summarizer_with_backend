@@ -22,16 +22,14 @@ print("Loaded Hugging Face Key:", HF_API_KEY[:10], "********")
 
 # --- Fetch Reddit RSS ---
 def fetch_news_articles(topic, max_articles=5):
-    url = f"https://news.google.com/rss/search?q={topic}"
+    topic = topic.strip().lower().replace(" ", "-")
+    url = f"https://medium.com/feed/tag/{topic}"
     headers = {'User-Agent': 'Mozilla/5.0'}
     feed = feedparser.parse(requests.get(url, headers=headers).content)
     print("📰 Fetching news articles from:", url)
 
-
     articles = []
     for entry in feed.entries:
-        if "reddit.com" in entry.link:
-            continue
         print("🔗 Found article link:", entry.link)
         articles.append({
             "title": entry.title,
@@ -41,27 +39,11 @@ def fetch_news_articles(topic, max_articles=5):
             break
     return articles
 
-# -- resolve url 
-#def resolve_google_news_url(google_url):
-#    try:
- #       # Google News links often contain a redirect inside the `url` param (sometimes base64 encoded)
-  #      response = requests.get(google_url, allow_redirects=True, timeout=10)
-   #     return response.url
-    #except Exception as e:
-     #   print(f"[ERROR] Resolving redirect: {google_url} -> {e}")
-      #  return google_url  # fallback
-
 # --- Scrape Text from URL ---
 def extract_text_from_url(url):
     try:
-        #real_url = resolve_google_news_url(url)
         print("🔗 Real article URL:", url)
-        #article = Article(real_url)
-        #article.download()
-        #article.parse()
-        #text = article.text
-        #print("📝 First 300 characters of extracted text:\n", text[:300])
-        #return text
+
         headers = {'User-Agent': 'Mozilla/5.0'}
         res = requests.get(url, headers=headers, allow_redirects=True)
 
