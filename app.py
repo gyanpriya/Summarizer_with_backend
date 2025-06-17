@@ -7,7 +7,6 @@ from newspaper import Article
 # from urllib.parse import urlparse, parse_qs
 import os
 from dotenv import load_dotenv
-import trafilatura
 
 load_dotenv()
 
@@ -53,20 +52,9 @@ def extract_text_from_url(url):
         article.download()
         article.parse()
         text = article.text
-
-        if len(text.strip()) >= 200:
-            print(f"✅ Extracted with newspaper3k: {len(text)} chars")
-            return text
-        
-        print("⚠️ Newspaper3k content too short, trying trafilatura...")
-        downloaded = trafilatura.fetch_url(real_url)
-
-        if downloaded:
-            extracted = trafilatura.extract(downloaded)
-            print(f"✅ Extracted with trafilatura: {len(extracted)} chars")
-            return extracted if extracted else ""
-
-        return ""  
+        print(f"✅ Extracted {len(text)} characters from article")
+        return text
+ 
         # headers = {'User-Agent': 'Mozilla/5.0'}
         # res = requests.get(url, headers=headers, timeout=10)
         # soup = BeautifulSoup(res.content, "html.parser")
