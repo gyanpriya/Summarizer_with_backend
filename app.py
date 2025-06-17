@@ -14,8 +14,7 @@ app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "https://gyanpriya.github.io"}})
 
 HF_API_KEY = os.getenv("HUGGINGFACE_API_KEY")
-HF_API_URL = "https://api-inference.huggingface.co/model" \
-"s/facebook/bart-large-cnn"
+HF_API_URL = "https://api-inference.huggingface.co/models/facebook/bart-large-cnn"
 HEADERS = {"Authorization": f"Bearer {HF_API_KEY}"}
 print("Loaded Hugging Face Key:", HF_API_KEY[:10], "********")
 
