@@ -2,8 +2,8 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import requests
 import feedparser
-# from bs4 import BeautifulSoup
-from newspaper import Article
+from bs4 import BeautifulSoup
+# from newspaper import Article
 # from urllib.parse import urlparse, parse_qs
 import os
 from dotenv import load_dotenv
@@ -52,18 +52,20 @@ def extract_text_from_url(url):
     try:
         real_url = resolve_google_news_url(url)
         print("🔗 Real article URL:", real_url)
-        article = Article(real_url)
-        article.download()
-        article.parse()
-        text = article.text
-        print("📝 First 300 characters of extracted text:\n", text[:300])
-        return text
+        #article = Article(real_url)
+        #article.download()
+        #article.parse()
+        #text = article.text
+        #print("📝 First 300 characters of extracted text:\n", text[:300])
+        #return text
  
-        # headers = {'User-Agent': 'Mozilla/5.0'}
-        # res = requests.get(url, headers=headers, timeout=10)
-        # soup = BeautifulSoup(res.content, "html.parser")
-        # paragraphs = soup.find_all("p")
-        # return " ".join(p.text for p in paragraphs)[:3000]
+        headers = {'User-Agent': 'Mozilla/5.0'}
+        res = requests.get(url, headers=headers, timeout=10)
+        soup = BeautifulSoup(res.content, "html.parser")
+        paragraphs = soup.find_all("p")
+        text = " ".join(p.get_text() for p in paragraphs)
+        print(f"✅ Extracted {len(text)} characters from article")
+        return text
     except Exception as e:
         print(f"[ERROR extracting article from {url}]:", e)
         return ""
