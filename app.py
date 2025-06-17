@@ -38,7 +38,7 @@ def extract_text_from_url(url):
         article = Article(url)
         article.download()
         article.parse()
-        return article.text[:3000]    
+        return article.text    
         # headers = {'User-Agent': 'Mozilla/5.0'}
         # res = requests.get(url, headers=headers, timeout=10)
         # soup = BeautifulSoup(res.content, "html.parser")
