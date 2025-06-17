@@ -86,25 +86,36 @@ def home():
 def summarize():
     data = request.get_json()
     topic = data.get("topic", "")
+    print("✅ Topic received from frontend:", topic)
 
     reddit_articles = fetch_news_articles(topic)
+    print(f"🔎 Number of articles fetched for topic '{topic}':", len(reddit_articles))
+
     summaries = []
     all_text = ""
 
-    for article in reddit_articles:
+    for idx,article in enumerate(reddit_articles):
+        print(f"➡️ [{idx+1}] Processing article: {article['title']}")
         content = extract_text_from_url(article["link"])
         if not content or len(content.strip()) < 200:
+            print(f"⚠️ Skipping article (too short or empty): {article['link']}")
             continue
         short_summary = summarize_text_hf(content)
+        print(f"✅ Summary {idx+1}: {short_summary[:100]}...")
+
         summaries.append({
             "title": article["title"],
             "link": article["link"],
             "summary": short_summary
         })
+
         all_text += short_summary + " "
+    if not all_text:
+        print("⚠️ No valid article content to summarize.")
 
     # Final summary of all summaries
     final_summary = summarize_text_hf(all_text) if all_text else "No summaries available."
+    print("🧠 Final consolidated summary:", final_summary[:200], "...")
 
     return jsonify({
         "article_summaries": summaries,
