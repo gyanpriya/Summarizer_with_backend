@@ -62,12 +62,20 @@ def extract_text_from_url(url):
         #text = article.text
         #print("📝 First 300 characters of extracted text:\n", text[:300])
         #return text
- 
         headers = {'User-Agent': 'Mozilla/5.0'}
-        res = requests.get(url, headers=headers, timeout=10)
-        soup = BeautifulSoup(res.content, "html.parser")
+        res = requests.get(url, headers=headers, allow_redirects=True)
+
+        # Get final URL after redirection
+        final_url = res.url
+        print("🔁 Final article URL:", final_url)
+
+        # Fetch actual content from final URL
+        page = requests.get(final_url, headers=headers)
+        soup = BeautifulSoup(page.content, "html.parser")
+
+        # Extract paragraph text
         paragraphs = soup.find_all("p")
-        text = " ".join(p.get_text() for p in paragraphs)
+        text = " ".join([p.get_text() for p in paragraphs])
         print(f"✅ Extracted {len(text)} characters from article")
         return text
     except Exception as e:
