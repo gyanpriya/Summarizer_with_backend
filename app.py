@@ -77,6 +77,10 @@ def summarize_text_hf(text):
         print(f"[ERROR] HuggingFace API: {e}")
         return "⚠️ Error during summarization."
 
+@app.route("/")
+def home():
+    return {"message": "Summarizer backend is running!"}
+
 # --- Flask Route ---
 @app.route("/summarize", methods=["POST"])
 def summarize():
