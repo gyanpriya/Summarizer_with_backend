@@ -74,7 +74,8 @@ def summarize_text_hf(text):
         response = requests.post(
             HF_API_URL,
             headers=HEADERS,
-            json={"inputs": text}
+            json={"inputs": text},
+            timeout=20
         )
         print("Response status code:", response.status_code)
         print("Response content:", response.text)
@@ -90,6 +91,9 @@ def summarize_text_hf(text):
             return result[0]['summary_text']
         else:
             return "⚠️ Summary could not be generated."
+    except requests.exceptions.Timeout:
+        print("❌ Hugging Face API timed out.")
+        return "⚠️ Hugging Face is taking too long. Try again later."
     except Exception as e:
         print(f"[ERROR] HuggingFace API: {e}")
         return "⚠️ Error during summarization."
