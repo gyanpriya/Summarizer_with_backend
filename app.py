@@ -38,20 +38,20 @@ def fetch_news_articles(topic, max_articles=5):
     return articles
 
 # -- resolve url 
-def resolve_google_news_url(google_url):
-    try:
-        # Google News links often contain a redirect inside the `url` param (sometimes base64 encoded)
-        response = requests.get(google_url, allow_redirects=True, timeout=10)
-        return response.url
-    except Exception as e:
-        print(f"[ERROR] Resolving redirect: {google_url} -> {e}")
-        return google_url  # fallback
+#def resolve_google_news_url(google_url):
+#    try:
+ #       # Google News links often contain a redirect inside the `url` param (sometimes base64 encoded)
+  #      response = requests.get(google_url, allow_redirects=True, timeout=10)
+   #     return response.url
+    #except Exception as e:
+     #   print(f"[ERROR] Resolving redirect: {google_url} -> {e}")
+      #  return google_url  # fallback
 
 # --- Scrape Text from URL ---
 def extract_text_from_url(url):
     try:
-        real_url = resolve_google_news_url(url)
-        print("🔗 Real article URL:", real_url)
+        #real_url = resolve_google_news_url(url)
+        print("🔗 Real article URL:", url)
         #article = Article(real_url)
         #article.download()
         #article.parse()
@@ -60,7 +60,7 @@ def extract_text_from_url(url):
         #return text
  
         headers = {'User-Agent': 'Mozilla/5.0'}
-        res = requests.get(real_url, headers=headers, timeout=10)
+        res = requests.get(url, headers=headers, timeout=10)
         soup = BeautifulSoup(res.content, "html.parser")
         paragraphs = soup.find_all("p")
         text = " ".join(p.get_text() for p in paragraphs)
