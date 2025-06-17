@@ -13,11 +13,12 @@ load_dotenv()
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "https://gyanpriya.github.io"}})
 
+load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), ".env"))
 HF_API_KEY = os.getenv("HUGGINGFACE_API_KEY")
 HF_API_URL = "https://api-inference.huggingface.co/models/facebook/bart-large-cnn"
 HEADERS = {"Authorization": f"Bearer {HF_API_KEY}"}
 print("Loaded Hugging Face Key:", HF_API_KEY[:10], "********")
-payload = {"inputs": "This is a simple test to verify Hugging Face summarization."}
+#payload = {"inputs": "This is a simple test to verify Hugging Face summarization."}
 
 
 # --- Fetch Reddit RSS ---
@@ -73,7 +74,7 @@ def summarize_text_hf(text):
         response = requests.post(
             HF_API_URL,
             headers=HEADERS,
-            json=payload #{"inputs": text}
+            json={"inputs": text}
         )
         print("Response status code:", response.status_code)
         print("Response content:", response.text)
