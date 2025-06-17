@@ -60,7 +60,7 @@ def extract_text_from_url(url):
         #return text
  
         headers = {'User-Agent': 'Mozilla/5.0'}
-        res = requests.get(url, headers=headers, timeout=10)
+        res = requests.get(real_url, headers=headers, timeout=10)
         soup = BeautifulSoup(res.content, "html.parser")
         paragraphs = soup.find_all("p")
         text = " ".join(p.get_text() for p in paragraphs)
