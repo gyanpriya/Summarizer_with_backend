@@ -4,6 +4,7 @@ import requests
 import feedparser
 # from bs4 import BeautifulSoup
 from newspaper import Article
+# from urllib.parse import urlparse, parse_qs
 import os
 from dotenv import load_dotenv
 
@@ -32,10 +33,22 @@ def fetch_news_articles(topic, max_articles=5):
         })
     return articles
 
+# -- resolve url 
+def resolve_google_news_url(google_url):
+    try:
+        # Google News links often contain a redirect inside the `url` param (sometimes base64 encoded)
+        response = requests.get(google_url, allow_redirects=True, timeout=10)
+        return response.url
+    except Exception as e:
+        print(f"[ERROR] Resolving redirect: {google_url} -> {e}")
+        return google_url  # fallback
+
 # --- Scrape Text from URL ---
 def extract_text_from_url(url):
     try:
-        article = Article(url)
+        real_url = resolve_google_news_url(url)
+        print("🔗 Real article URL:", real_url)
+        article = Article(real_url)
         article.download()
         article.parse()
         return article.text    
