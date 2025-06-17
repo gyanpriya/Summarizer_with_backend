@@ -14,19 +14,23 @@ app = Flask(__name__)
 CORS(app)
 
 HF_API_KEY = os.getenv("HUGGINGFACE_API_KEY")
-HF_API_URL = "https://api-inference.huggingface.co/models/facebook/bart-large-cnn"
+HF_API_URL = "https://api-inference.huggingface.co/model" \
+"s/facebook/bart-large-cnn"
 HEADERS = {"Authorization": f"Bearer {HF_API_KEY}"}
 print("Loaded Hugging Face Key:", HF_API_KEY[:10], "********")
 
 
 # --- Fetch Reddit RSS ---
 def fetch_news_articles(topic, max_articles=5):
-    url = f"https://news.google.com/rss/search?q={topic}"
+    url = f"https://www.reddit.com/search.rss?q={topic}&sort=new"
     headers = {'User-Agent': 'Mozilla/5.0'}
     feed = feedparser.parse(requests.get(url, headers=headers).content)
+    print("📰 Fetching news articles from:", url)
+
 
     articles = []
     for entry in feed.entries[:max_articles]:
+        print("🔗 Found article link:", entry.link)
         articles.append({
             "title": entry.title,
             "link": entry.link
@@ -52,7 +56,7 @@ def extract_text_from_url(url):
         article.download()
         article.parse()
         text = article.text
-        print(f"✅ Extracted {len(text)} characters from article")
+        print("📝 First 300 characters of extracted text:\n", text[:300])
         return text
  
         # headers = {'User-Agent': 'Mozilla/5.0'}
