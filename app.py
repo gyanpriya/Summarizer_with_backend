@@ -22,7 +22,7 @@ print("Loaded Hugging Face Key:", HF_API_KEY[:10], "********")
 
 # --- Fetch Reddit RSS ---
 def fetch_news_articles(topic, max_articles=5):
-    url = f"https://www.reddit.com/search.rss?q={topic}&sort=new"
+    url = f"https://news.google.com/rss/search?q={topic}"
     headers = {'User-Agent': 'Mozilla/5.0'}
     feed = feedparser.parse(requests.get(url, headers=headers).content)
     print("📰 Fetching news articles from:", url)
