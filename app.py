@@ -51,7 +51,13 @@ def extract_text_from_url(url):
         article = Article(real_url)
         article.download()
         article.parse()
-        return article.text    
+        extracted_text = article.text
+        print(f"📄 Extracted text length: {len(extracted_text)}")
+
+        if len(extracted_text.strip()) < 200:
+            print(f"⚠️ Extracted text too short: {extracted_text[:150]}")
+            
+        return extracted_text   
         # headers = {'User-Agent': 'Mozilla/5.0'}
         # res = requests.get(url, headers=headers, timeout=10)
         # soup = BeautifulSoup(res.content, "html.parser")
