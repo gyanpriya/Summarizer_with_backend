@@ -6,3 +6,4 @@ newspaper3k
 python-dotenv
 lxml[html_clean]
 gunicorn
+beautifulsoup4
